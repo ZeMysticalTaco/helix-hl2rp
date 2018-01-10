@@ -13,7 +13,7 @@ I just ported it to Helix, and any additional modifications, that I may make.
 
 # Disclaimer
 
-As far as I know, Alex intends to release an hl2rp schema to go with Helix when it's complete, however, I wanted to get to work ahead of time on porting stuff for ShockCore Gaming.
+As far as I know, Alex intends to release an hl2rp schema to go with Helix when it's complete, however, I wanted to get to work ahead of time on porting stuff for ShockCore Gaming, and until an official Helix based one is released, this is free for those who want to use it for starting their work on Helix, too.
 
 Helix is in an early stage of development, and things can and will break, when they change things.
 
