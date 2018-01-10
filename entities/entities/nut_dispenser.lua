@@ -34,7 +34,7 @@ function ENT:SpawnFunction(client, trace)
 	entity:Spawn()
 	entity:Activate()
 
-	SCHEMA:saveDispensers()
+	Schema:saveDispensers()
 
 	return entity
 end
@@ -98,7 +98,7 @@ if (CLIENT) then
 		cam.End3D2D()
 	end
 else
-	function ENT:setUseAllowed(state)
+	function ENT:SetUseAllowed(state)
 		self.canUse = state
 	end
 
@@ -115,7 +115,7 @@ else
 				timer.Simple(0.5, function()
 					if (!IsValid(self)) then return end
 
-					self:setUseAllowed(true)
+					self:SetUseAllowed(true)
 				end)
 			end
 		end)
@@ -134,7 +134,7 @@ else
 		timer.Simple(1.2, function()
 			if (IsValid(self) and IsValid(entity)) then
 				entity:Remove()
-				nut.item.spawn("ration", entity:GetPos(), nil, entity:GetAngles())
+				ix.item.spawn("ration", entity:GetPos(), nil, entity:GetAngles())
 			end
 		end)
 	end
@@ -144,7 +144,7 @@ else
 			return
 		end
 
-		self:setUseAllowed(false)
+		self:SetUseAllowed(false)
 		self:SetText("DISPENSING")
 		self:EmitSound("ambient/machines/combine_terminal_idle4.wav")
 		self:createRation()
@@ -169,7 +169,7 @@ else
 						timer.Simple(0.75, function()
 							if (!IsValid(self)) then return end
 
-							self:setUseAllowed(true)
+							self:SetUseAllowed(true)
 						end)
 					end)
 				end
@@ -187,24 +187,24 @@ else
 				return
 			end
 
-			self:setUseAllowed(false)
+			self:SetUseAllowed(false)
 			self:SetText("CHECKING")
 			self:SetDispColor(COLOR_BLUE)
 			self:EmitSound("ambient/machines/combine_terminal_idle2.wav")
 
 			timer.Simple(1, function()
-				if (!IsValid(self) or !IsValid(activator)) then return self:setUseAllowed(true) end
+				if (!IsValid(self) or !IsValid(activator)) then return self:SetUseAllowed(true) end
 
 				local found = false
 				local amount = 0
 				local item
 
-				for k, v in pairs(activator:getChar():getInv():getItems()) do
+				for k, v in pairs(activator:GetChar():GetInv():getItems()) do
 					if (v.uniqueID == "cid") then
 						found = true
 
-						if (v:getData("nextTime", 0) < os.time()) then
-							if (v:getData("cwu")) then
+						if (v:GetData("nextTime", 0) < os.time()) then
+							if (v:GetData("cwu")) then
 								amount = 2
 							else
 								amount = 1
@@ -217,14 +217,14 @@ else
 					end
 				end
 
-				local item = activator:getChar():getInv():hasItem("cid")
+				local item = activator:GetChar():GetInv():HasItem("cid")
 
 				if (!found) then
 					return self:error("INVALID ID")
 				elseif (found and amount == 0) then
 					return self:error("TRY LATER")
 				else
-					item:setData("nextTime", os.time() + 300)
+					item:SetData("nextTime", os.time() + 300)
 
 					self:SetText("ID OKAY")
 					self:EmitSound("buttons/button14.wav", 100, 50)
@@ -236,7 +236,7 @@ else
 					end)
 				end
 			end)
-		elseif (activator:isCombine()) then
+		elseif (activator:IsCombine()) then
 			self:SetDisabled(!self:GetDisabled())
 			self:EmitSound(self:GetDisabled() and "buttons/combine_button1.wav" or "buttons/combine_button2.wav")
 			self.nextUse = CurTime() + 1
@@ -244,8 +244,8 @@ else
 	end
 
 	function ENT:OnRemove()
-		if (!nut.shuttingDown) then
-			SCHEMA:saveDispensers()
+		if (!ix.shuttingDown) then
+			Schema:saveDispensers()
 		end
 	end
 end

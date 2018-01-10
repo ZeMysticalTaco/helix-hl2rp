@@ -1,6 +1,6 @@
 PLUGIN.name = "Combine Locks"
 PLUGIN.author = "Chessnut"
-PLUGIN.desc = "Adds Combine locks to doors."
+PLUGIN.description = "Adds Combine locks to doors."
 
 if (SERVER) then
 	function PLUGIN:SaveData()
@@ -12,20 +12,20 @@ if (SERVER) then
 			end
 		end
 
-		self:setData(data)
+		self:SetData(data)
 	end
 
 	function PLUGIN:LoadData()
-		local data = self:getData() or {}
+		local data = self:GetData() or {}
 
 		for k, v in ipairs(data) do
 			local door = ents.GetMapCreatedEntity(v[1])
 
-			if (IsValid(door) and door:isDoor()) then
+			if (IsValid(door) and door:IsDoor()) then
 				local entity = ents.Create("nut_cmblock")
 				entity:SetPos(door:GetPos())
 				entity:Spawn()
-				entity:setDoor(door, door:LocalToWorld(v[2]), door:LocalToWorldAngles(v[3]))
+				entity:SetDoor(door, door:LocalToWorld(v[2]), door:LocalToWorldAngles(v[3]))
 				entity:SetLocked(v[4])
 
 				if (v[4]) then

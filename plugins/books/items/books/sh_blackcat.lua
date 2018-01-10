@@ -1,5 +1,5 @@
 ITEM.name = "The Black Cat"
-ITEM.desc = "A dark colored book with the black cat on it."
+ITEM.description = "A dark colored book with the black cat on it."
 ITEM.price = 25
 ITEM.contents = [[
 <h1>The Black Cat</h1>
@@ -272,7 +272,7 @@ hand of my wife. Goaded, by the interference, into a rage more
 than demoniacal, I withdrew my arm from her grasp, and buried
 the axe in her brain. She fell dead upon the spot, without a
 groan.
-This hideous murder accomplished, I set myself forthwith,
+This hideous murder accomplished, I Set myself forthwith,
 and with entire deliberation, to the task of concealing the body.
 I knew that I could not remove it from the house, either by day
 or by night, without the risk of being observed by the neighbours.

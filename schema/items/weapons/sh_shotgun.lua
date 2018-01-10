@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = "Shotgun"
-ITEM.desc = "A powerful pump-action shotgun."
+ITEM.description = "A powerful pump-action shotgun."
 ITEM.class = "weapon_shotgun"
 ITEM.weaponCategory = "primary"
 ITEM.model = "models/weapons/w_shotgun.mdl"

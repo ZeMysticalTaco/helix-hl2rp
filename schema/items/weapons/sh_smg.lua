@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = "MP7"
-ITEM.desc = "A compact, fully automatic sub-machine gun."
+ITEM.description = "A compact, fully automatic sub-machine gun."
 ITEM.model = "models/weapons/w_smg1.mdl"
 ITEM.class = "weapon_smg1"
 ITEM.weaponCategory = "primary"

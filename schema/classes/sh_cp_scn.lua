@@ -1,14 +1,14 @@
 CLASS.name = "Civil Protection Scanner"
-CLASS.desc = "A robotic, metal scanner for observing the city."
+CLASS.description = "A robotic, metal scanner for observing the city."
 CLASS.faction = FACTION_CP
 
-function CLASS:onCanBe(client)
-	return client:isCombineRank(SCHEMA.scnRanks)
+function CLASS:OnCanBe(client)
+	return client:IsCombineRank(Schema.scnRanks)
 end
 
 
-function CLASS:onSet(client)
-	local scanner = nut.plugin.list.scanner
+function CLASS:OnSet(client)
+	local scanner = ix.plugin.list.scanner
 
 	if (scanner) then
 		scanner:createScanner(client, client:getCombineRank() == "CLAW.SCN" and "npc_clawscanner" or nil)
@@ -17,7 +17,7 @@ function CLASS:onSet(client)
 	end
 end
 
-function CLASS:onLeave(client)
+function CLASS:OnLeave(client)
 	if (IsValid(client.nutScn)) then
 		local data = {}
 			data.start = client.nutScn:GetPos()

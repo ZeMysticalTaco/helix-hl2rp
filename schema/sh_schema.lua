@@ -1,23 +1,23 @@
-SCHEMA.name = "HL2 RP"
-SCHEMA.introName = "Half-Life 2 Roleplay"
-SCHEMA.author = "Chessnut"
-SCHEMA.desc = "Under rule of the Universal Union."
+Schema.name = "HL2 RP"
+Schema.introName = "Half-Life 2 Roleplay"
+Schema.author = "Chessnut"
+Schema.description = "Under the rule of the Universal Union."
 
-function SCHEMA:isCombineFaction(faction)
+function Schema:IsCombineFaction(faction)
 	return faction == FACTION_CP or faction == FACTION_OW
 end
 
 do
 	local playerMeta = FindMetaTable("Player")
 
-	function playerMeta:isCombine()
-		return SCHEMA:isCombineFaction(self:Team())
+	function playerMeta:IsCombine()
+		return Schema:IsCombineFaction(self:Team())
 	end
 
 	function playerMeta:getCombineRank()
 		local name = self:Name()
 
-		for k, v in ipairs(SCHEMA.scnRanks) do
+		for k, v in ipairs(Schema.scnRanks) do
 			local rank = string.PatternSafe(v)
 
 			if (name:find("[%D+]"..rank.."[%D+]")) then
@@ -25,7 +25,7 @@ do
 			end
 		end
 
-		for k, v in ipairs(SCHEMA.rctRanks) do
+		for k, v in ipairs(Schema.rctRanks) do
 			local rank = string.PatternSafe(v)
 
 			if (name:find("[%D+]"..rank.."[%D+]")) then
@@ -33,7 +33,7 @@ do
 			end
 		end
 
-		for k, v in ipairs(SCHEMA.unitRanks) do
+		for k, v in ipairs(Schema.unitRanks) do
 			local rank = string.PatternSafe(v)
 
 			if (name:find("[%D+]"..rank.."[%D+]")) then
@@ -41,7 +41,7 @@ do
 			end
 		end
 
-		for k, v in ipairs(SCHEMA.eliteRanks) do
+		for k, v in ipairs(Schema.eliteRanks) do
 			local rank = string.PatternSafe(v)
 
 			if (name:find("[%D+]"..rank.."[%D+]")) then
@@ -50,7 +50,7 @@ do
 		end
 	end
 
-	function playerMeta:isCombineRank(rank)
+	function playerMeta:IsCombineRank(rank)
 		if (type(rank) == "table") then
 			local name = self:Name()
 
@@ -70,8 +70,8 @@ do
 
 	function playerMeta:getRank()
 		for k, v in ipairs(team.GetPlayers(FACTION_CP)) do
-			local eliteRanks = string.Explode(",", nut.config.get("rankElite", "RCT"):gsub("%s", ""))
-			local unitRanks = string.Explode(",", nut.config.get("rankUnit", "RCT"):gsub("%s", ""))
+			local eliteRanks = string.Explode(",", ix.config.Get("rankElite", "RCT"):gsub("%s", ""))
+			local unitRanks = string.Explode(",", ix.config.Get("rankUnit", "RCT"):gsub("%s", ""))
 			local name = string.PatternSafe(v:Name())
 
 			for k, v in ipairs(eliteRanks) do
@@ -90,12 +90,12 @@ do
 		end
 	end
 
-	function SCHEMA:isDispatch(client)
-		return client:isCombineRank(self.eliteRanks) or client:isCombineRank(self.scnRanks)
+	function Schema:IsDispatch(client)
+		return client:IsCombineRank(self.eliteRanks) or client:IsCombineRank(self.scnRanks)
 	end
 
 	function playerMeta:getDigits()
-		if (self:isCombine()) then
+		if (self:IsCombine()) then
 			local name = self:Name():reverse()
 			local digits = name:match("(%d+)")
 
@@ -108,17 +108,17 @@ do
 	end
 
 	if (SERVER) then
-		function playerMeta:addDisplay(text, color)
-			if (self:isCombine()) then
+		function playerMeta:AddDisplay(text, color)
+			if (self:IsCombine()) then
 				netstream.Start(self, "cDisp", text, color)
 			end
 		end
 
-		function SCHEMA:addDisplay(text, color)
+		function Schema:AddDisplay(text, color)
 			local receivers = {}
 
 			for k, v in ipairs(player.GetAll()) do
-				if (v:isCombine()) then
+				if (v:IsCombine()) then
 					receivers[#receivers + 1] = v
 				end
 			end
@@ -128,16 +128,16 @@ do
 	end
 end
 
-nut.util.include("sh_config.lua")
-nut.util.include("sh_commands.lua")
-nut.util.includeDir("hooks")
+ix.util.Include("sh_config.lua")
+ix.util.Include("sh_commands.lua")
+ix.util.IncludeDir("hooks")
 
 if (SERVER) then
-	SCHEMA.objectives = SCHEMA.objectives or ""
+	Schema.objectives = Schema.objectives or ""
 	
-	concommand.Add("nut_setupnexusdoors", function(client, command, arguments)
+	concommand.Add("nut_Setupnexusdoors", function(client, command, arguments)
 		if (!IsValid(client)) then
-			if (!nut.plugin.list.doors) then
+			if (!ix.plugin.list.doors) then
 				return MsgN("[NutScript] Door plugin is missing!")
 			end
 
@@ -145,19 +145,19 @@ if (SERVER) then
 
 			for _, entity in ipairs(ents.FindByClass("func_door")) do
 				if (!entity:HasSpawnFlags(256) and !entity:HasSpawnFlags(1024)) then
-					entity:setNetVar("noSell", true)
-					entity:setNetVar("name", !name:find("%S") and "Nexus" or name)
+					entity:SetNetVar("noSell", true)
+					entity:SetNetVar("name", !name:find("%S") and "Nexus" or name)
 				end
 			end
 
-			nut.plugin.list.doors:SaveDoorData()
+			ix.plugin.list.doors:SaveDoorData()
 
-			MsgN("[NutScript] Nexus doors have been set up.")
+			MsgN("[NutScript] Nexus doors have been Set up.")
 		end
 	end)
 end
 
-for k, v in pairs(SCHEMA.beepSounds) do
+for k, v in pairs(Schema.beepSounds) do
 	for k2, v2 in ipairs(v.on) do
 		util.PrecacheSound(v2)
 	end
@@ -167,71 +167,71 @@ for k, v in pairs(SCHEMA.beepSounds) do
 	end
 end
 
-for k, v in pairs(SCHEMA.deathSounds) do
+for k, v in pairs(Schema.deathSounds) do
 	for k2, v2 in ipairs(v) do
 		util.PrecacheSound(v2)
 	end
 end
 
-for k, v in pairs(SCHEMA.painSounds) do
+for k, v in pairs(Schema.painSounds) do
 	for k2, v2 in ipairs(v) do
 		util.PrecacheSound(v2)
 	end
 end
 
-for k, v in pairs(SCHEMA.rankModels) do
-	nut.anim.setModelClass(v, "metrocop")
+for k, v in pairs(Schema.rankModels) do
+	ix.anim.SetModelClass(v, "metrocop")
 	player_manager.AddValidModel("combine", v)
 
 	util.PrecacheModel(v)
 end
 
-nut.util.include("sh_voices.lua")
+ix.util.Include("sh_voices.lua")
 
 if (SERVER) then
-	function SCHEMA:saveObjectives()
-		nut.data.set("objectives", self.objectives, false, true)
+	function Schema:saveObjectives()
+		ix.data.Set("objectives", self.objectives, false, true)
 	end
 
-	function SCHEMA:saveVendingMachines()
+	function Schema:saveVendingMachines()
 		local data = {}
 
 		for k, v in ipairs(ents.FindByClass("nut_vendingm")) do
-			data[#data + 1] = {v:GetPos(), v:GetAngles(), v:getNetVar("stocks"), v:getNetVar("active")}
+			data[#data + 1] = {v:GetPos(), v:GetAngles(), v:GetNetVar("stocks"), v:GetNetVar("active")}
 		end
 
-		nut.data.set("vendingm", data)
+		ix.data.Set("vendingm", data)
 	end
 
-	function SCHEMA:saveDispensers()
+	function Schema:saveDispensers()
 		local data = {}
 
 		for k, v in ipairs(ents.FindByClass("nut_dispenser")) do
 			data[#data + 1] = {v:GetPos(), v:GetAngles(), v:GetDisabled() == true and true or nil}
 		end
 
-		nut.data.set("dispensers", data)
+		ix.data.Set("dispensers", data)
 	end
 
-	function SCHEMA:loadObjectives()
-		self.objectives = nut.data.get("objectives", "", false, true)
+	function Schema:loadObjectives()
+		self.objectives = ix.data.Get("objectives", "", false, true)
 	end
 
-	function SCHEMA:loadVendingMachines()
-		local data = nut.data.get("vendingm") or {}
+	function Schema:loadVendingMachines()
+		local data = ix.data.Get("vendingm") or {}
 
 		for k, v in ipairs(data) do
 			local entity = ents.Create("nut_vendingm")
 			entity:SetPos(v[1])
 			entity:SetAngles(v[2])
 			entity:Spawn()
-			entity:setNetVar("stocks", v[3] or {})
-			entity:setNetVar("active", v[4])
+			entity:SetNetVar("stocks", v[3] or {})
+			entity:SetNetVar("active", v[4])
 		end
 	end
 
-	function SCHEMA:loadDispensers()
-		for k, v in ipairs(nut.data.get("dispensers") or {}) do
+	function Schema:loadDispensers()
+		for k, v in ipairs(ix.data.Get("dispensers") or {}) do
 			local entity = ents.Create("nut_dispenser")
 			entity:SetPos(v[1])
 			entity:SetAngles(v[2])
@@ -244,32 +244,32 @@ if (SERVER) then
 	end
 end
 
-nut.chat.register("dispatch", {
+ix.chat.Register("dispatch", {
 	color = Color(192, 57, 43),
-	onCanSay = function(client)
-		if (!SCHEMA:isDispatch(client)) then
+	OnCanSay = function(client)
+		if (!Schema:IsDispatch(client)) then
 			client:notifyLocalized("notAllowed")
 
 			return false
 		end
 	end,
-	onChatAdd = function(speaker, text)
+	OnChatAdd = function(speaker, text)
 		chat.AddText(Color(192, 57, 43), L("icFormat", "Dispatch", text))
 	end,
 	prefix = {"/dispatch"}
 })
 
-nut.chat.register("request", {
+ix.chat.Register("request", {
 	color = Color(210, 77, 87),
-	onChatAdd = function(speaker, text)
+	OnChatAdd = function(speaker, text)
 		chat.AddText(Color(210, 77, 87), text)
 	end,
-	onCanHear = function(speaker, listener)
-		return listener:isCombine()
+	OnCanHear = function(speaker, listener)
+		return listener:IsCombine()
 	end
 })
 
-nut.flag.add("y", "Access to the light blackmarket items.")
-nut.flag.add("Y", "Access to the heavy blackmarket items.")
+ix.flag.Add("y", "Access to the light blackmarket items.")
+ix.flag.Add("Y", "Access to the heavy blackmarket items.")
 
-nut.currency.set("", "token", "tokens")
+ix.currency.Set("", "token", "tokens")

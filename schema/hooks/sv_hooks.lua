@@ -1,5 +1,5 @@
-function SCHEMA:PlayerFootstep(client, position, foot, soundName, volume)
-	if (client:isRunning()) then
+function Schema:PlayerFootstep(client, position, foot, soundName, volume)
+	if (client:IsRunning()) then
 		if (client:Team() == FACTION_CP) then
 			client:EmitSound("npc/metropolice/gear"..math.random(1, 6)..".wav", volume * 130)
 
@@ -12,32 +12,32 @@ function SCHEMA:PlayerFootstep(client, position, foot, soundName, volume)
 	end
 end
 
-function SCHEMA:OnCharCreated(client, character)
-	local inventory = character:getInv()
+function Schema:OnCharCreated(client, character)
+	local inventory = character:GetInv()
 
 	if (inventory) then		
-		if (character:getFaction() == FACTION_CITIZEN) then
-			inventory:add("cid", 1, {
-				name = character:getName(),
+		if (character:GetFaction() == FACTION_CITIZEN) then
+			inventory:Add("cid", 1, {
+				name = character:GetName(),
 				id = math.random(10000, 99999)
 			})
-		elseif (self:isCombineFaction(character:getFaction())) then
-			inventory:add("radio", 1)
+		elseif (self:IsCombineFaction(character:GetFaction())) then
+			inventory:Add("radio", 1)
 		end
 	end
 end
 
-function SCHEMA:LoadData()
+function Schema:LoadData()
 	self:loadVendingMachines()
 	self:loadDispensers()
 	self:loadObjectives()
 end
 
-function SCHEMA:PostPlayerLoadout(client)
-	if (client:isCombine()) then
+function Schema:PostPlayerLoadout(client)
+	if (client:IsCombine()) then
 		if (client:Team() == FACTION_CP) then
-			for k, v in ipairs(nut.class.list) do
-				if (client:getChar():joinClass(k)) then
+			for k, v in ipairs(ix.class.list) do
+				if (client:GetChar():joinClass(k)) then
 					break
 				end
 			end
@@ -49,22 +49,22 @@ function SCHEMA:PostPlayerLoadout(client)
 			client:SetArmor(100)
 		end
 
-		client:addDisplay("Local unit protection measures active at "..client:Armor().."%")
+		client:AddDisplay("Local unit protection measures active at "..client:Armor().."%")
 
-		if (nut.plugin.list.scanner and client:isCombineRank(self.scnRanks)) then
-			nut.plugin.list.scanner:createScanner(client, client:getCombineRank() == "CLAW.SCN" and "npc_clawscanner" or nil)
+		if (ix.plugin.list.scanner and client:IsCombineRank(self.scnRanks)) then
+			ix.plugin.list.scanner:createScanner(client, client:getCombineRank() == "CLAW.SCN" and "npc_clawscanner" or nil)
 		end
 	end
 end
 
-function SCHEMA:CanPlayerViewData(client, target)
-	if (client:isCombine()) then
+function Schema:CanPlayerViewData(client, target)
+	if (client:IsCombine()) then
 		return true
 	end
 end
 
-function SCHEMA:PlayerUseDoor(client, entity)
-	if (client:isCombine()) then
+function Schema:PlayerUseDoor(client, entity)
+	if (client:IsCombine()) then
 		local lock = entity.lock or (IsValid(entity:getDoorPartner()) and entity:getDoorPartner().lock)
 
 		if (client:KeyDown(IN_SPEED) and IsValid(lock)) then
@@ -77,23 +77,23 @@ function SCHEMA:PlayerUseDoor(client, entity)
 	end
 end
 
-function SCHEMA:PlayerSwitchFlashlight(client, enabled)
-	if (client:isCombine()) then
+function Schema:PlayerSwitchFlashlight(client, enabled)
+	if (client:IsCombine()) then
 		return true
 	end
 end
 
-function SCHEMA:PlayerRankChanged(client)
+function Schema:PlayerRankChanged(client)
 	for k, v in pairs(self.rankModels) do
-		if (client:isCombineRank(k)) then
+		if (client:IsCombineRank(k)) then
 			client:SetModel(v)
 		end
 	end
 end
 
-function SCHEMA:OnCharVarChanged(character, key, oldValue, value)
-	if (key == "name" and IsValid(character:getPlayer()) and character:getPlayer():isCombine()) then
-		for k, v in ipairs(nut.class.list) do
+function Schema:OnCharVarChanged(character, key, oldValue, value)
+	if (key == "name" and IsValid(character:getPlayer()) and character:getPlayer():IsCombine()) then
+		for k, v in ipairs(ix.class.list) do
 			if (character:joinClass(k)) then
 				break
 			end
@@ -116,8 +116,8 @@ local digitsToWords = {
 	[9] = "nine"
 }
 
-function SCHEMA:GetPlayerDeathSound(client)
-	if (client:isCombine()) then
+function Schema:GetPlayerDeathSound(client)
+	if (client:IsCombine()) then
 		local sounds = self.deathSounds[client:Team()] or self.deathSounds[FACTION_CP]
 		local digits = client:getDigits()
 		local queue = {"npc/overwatch/radiovoice/lostbiosignalforunit.wav"}
@@ -141,20 +141,20 @@ function SCHEMA:GetPlayerDeathSound(client)
 			queue[#queue + 1] = {table.Random(self.beepSounds[client:Team()] and self.beepSounds[client:Team()].off or self.beepSounds[FACTION_CP].off), nil, 0.25}
 
 			for k, v in ipairs(player.GetAll()) do
-				if (v:isCombine()) then
-					nut.util.emitQueuedSounds(v, queue, 2, nil, v == client and 100 or 65)
+				if (v:IsCombine()) then
+					ix.util.EmitQueuedSounds(v, queue, 2, nil, v == client and 100 or 65)
 				end
 			end
 		end
 
-		self:addDisplay("lost bio-signal for protection team unit "..digits.." at unknown location", Color(255, 0, 0))
+		self:AddDisplay("lost bio-signal for protection team unit "..digits.." at unknown location", Color(255, 0, 0))
 
 		return table.Random(sounds)
 	end
 end
 
-function SCHEMA:PlayerHurt(client, attacker, health, damage)
-	if (client:isCombine() and damage > 5) then
+function Schema:PlayerHurt(client, attacker, health, damage)
+	if (client:IsCombine() and damage > 5) then
 		local word = "minor"
 
 		if (damage >= 75) then
@@ -165,7 +165,7 @@ function SCHEMA:PlayerHurt(client, attacker, health, damage)
 			word = "large"
 		end
 
-		client:addDisplay("local unit has sustained "..word.." bodily damage"..(damage >= 25 and ", seek medical attention" or ""), Color(255, 175, 0))
+		client:AddDisplay("local unit has sustained "..word.." bodily damage"..(damage >= 25 and ", seek medical attention" or ""), Color(255, 175, 0))
 
 		local delay
 
@@ -183,40 +183,40 @@ function SCHEMA:PlayerHurt(client, attacker, health, damage)
 	end
 end
 
-function SCHEMA:GetPlayerPainSound(client)
-	if (client:isCombine()) then
+function Schema:GetPlayerPainSound(client)
+	if (client:IsCombine()) then
 		local sounds = self.painSounds[client:Team()] or self.painSounds[FACTION_CP]
 
 		return table.Random(sounds)
 	end
 end
 
-function SCHEMA:PlayerTick(client)
-	if (client:isCombine() and client:Alive() and (client.nutHealthCheck or 0) < CurTime()) then
+function Schema:PlayerTick(client)
+	if (client:IsCombine() and client:Alive() and (client.nutHealthCheck or 0) < CurTime()) then
 		local delay = 60
 
 		if (client:Health() <= 10) then
 			delay = 10
-			client:addDisplay("Local unit vital signs are failing, seek medical attention immediately", Color(255, 0, 0))
+			client:AddDisplay("Local unit vital signs are failing, seek medical attention immediately", Color(255, 0, 0))
 		elseif (client:Health() <= 25) then
 			delay = 20
-			client:addDisplay("Local unit must seek medical attention immediately", Color(255, 100, 0))
+			client:AddDisplay("Local unit must seek medical attention immediately", Color(255, 100, 0))
 		elseif (client:Health() <= 50) then
 			delay = 45
-			client:addDisplay("Local unit is advised to seek medical attention when possible", Color(255, 175, 0))
+			client:AddDisplay("Local unit is advised to seek medical attention when possible", Color(255, 175, 0))
 		end
 
 		client.nutHealthCheck = CurTime() + delay
 	end
 end
 
-function SCHEMA:PlayerMessageSend(client, chatType, message, anonymous, receivers)
-	if (!nut.voice.chatTypes[chatType]) then
+function Schema:PlayerMessageSend(client, chatType, message, anonymous, receivers)
+	if (!ix.voice.chatTypes[chatType]) then
 		return
 	end
 
-	for _, definition in ipairs(nut.voice.getClass(client)) do
-		local sounds, message = nut.voice.getVoiceList(definition.class, message)
+	for _, definition in ipairs(ix.voice.GetClass(client)) do
+		local sounds, message = ix.voice.GetVoiceList(definition.class, message)
 
 		if (sounds) then
 			local volume = 80
@@ -227,8 +227,8 @@ function SCHEMA:PlayerMessageSend(client, chatType, message, anonymous, receiver
 				volume = 150
 			end
 			
-			if (definition.onModify) then
-				if (definition.onModify(client, sounds, chatType, message) == false) then
+			if (definition.OnModify) then
+				if (definition.OnModify(client, sounds, chatType, message) == false) then
 					continue
 				end
 			end
@@ -254,25 +254,25 @@ function SCHEMA:PlayerMessageSend(client, chatType, message, anonymous, receiver
 	end
 end
 
-function SCHEMA:PlayerStaminaLost(client)
-	if (client:isCombine()) then
-		client:addDisplay("Local unit energy has been exhausted")
+function Schema:PlayerStaminaLost(client)
+	if (client:IsCombine()) then
+		client:AddDisplay("Local unit energy has been exhausted")
 	end
 end
 
-function SCHEMA:CanPlayerViewObjectives(client)
-	return client:isCombine()
+function Schema:CanPlayerViewObjectives(client)
+	return client:IsCombine()
 end
 
-function SCHEMA:CanPlayerEditObjectives(client)
-	return client:isCombine()
+function Schema:CanPlayerEditObjectives(client)
+	return client:IsCombine()
 end
 
 netstream.Hook("dataCls", function(client, text)
 	local target = client.nutDataTarget
 
-	if (text and IsValid(target) and target:getChar() and hook.Run("CanPlayerEditData", client, target)) then
-		target:getChar():setData("txt", text:sub(1, 750))
+	if (text and IsValid(target) and target:GetChar() and hook.Run("CanPlayerEditData", client, target)) then
+		target:GetChar():SetData("txt", text:sub(1, 750))
 		client:EmitSound("buttons/combine_button7.wav", 60, 150)
 	end
 
@@ -281,8 +281,8 @@ end)
 
 netstream.Hook("obj", function(client, text)
 	if (hook.Run("CanPlayerEditObjectives", client)) then
-		SCHEMA.objectives = text
-		SCHEMA:addDisplay(client:Name().." has updated the objectives", Color(0, 0, 255))
-		SCHEMA:saveObjectives()
+		Schema.objectives = text
+		Schema:AddDisplay(client:Name().." has updated the objectives", Color(0, 0, 255))
+		Schema:saveObjectives()
 	end
 end)

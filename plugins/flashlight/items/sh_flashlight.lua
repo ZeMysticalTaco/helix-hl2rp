@@ -1,10 +1,10 @@
 ITEM.name = "Flashlight"
 ITEM.model = "models/maxofs2d/lamp_flashlight.mdl"
-ITEM.desc = "A regular flashlight with batteries included."
+ITEM.description = "A regular flashlight with batteries included."
 ITEM.price = 20
 ITEM.permit = "misc"
 
-ITEM:hook("drop", function(item)
+ITEM:Hook("drop", function(item)
 	if (item.player:FlashlightIsOn()) then
 		item.player:Flashlight(false)
 	end

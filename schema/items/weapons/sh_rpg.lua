@@ -1,5 +1,5 @@
 ITEM.name = "RPG"
-ITEM.desc = "A guided rocket launcher with a red laser."
+ITEM.description = "A guided rocket launcher with a red laser."
 ITEM.model = "models/weapons/w_rocket_launcher.mdl"
 ITEM.class = "weapon_rpg"
 ITEM.weaponCategory = "primary"

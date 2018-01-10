@@ -43,7 +43,7 @@ function PANEL:allowEdit(bool)
 	end
 end
 
-function PANEL:setText(text)
+function PANEL:SetText(text)
 	self.contents:SetValue(text)
 end
 

@@ -1,17 +1,17 @@
 local PLUGIN = PLUGIN
 PLUGIN.name = "Note Writings"
 PLUGIN.author = "Black Tea"
-PLUGIN.desc = "You can write stuffs."
+PLUGIN.description = "You can write stuffs."
 NOTELIMIT = 1000
 WRITINGDATA = WRITINGDATA or {}
 
-nut.util.include("cl_vgui.lua")
+ix.util.Include("cl_vgui.lua")
 
 if (CLIENT) then
 	netstream.Hook("receiveNote", function(id, contents, write)
 		local note = vgui.Create("noteRead")
 		note:allowEdit(write)
-		note:setText(contents)
+		note:SetText(contents)
 		note.id = id
 	end)
 else
@@ -35,7 +35,7 @@ else
 	end)
 
 	function PLUGIN:EntityRemoved(entity)
-		if (!nut.shuttingDown and entity and IsValid(entity) and entity:GetClass() == "nut_note" and entity.id) then
+		if (!ix.shuttingDown and entity and IsValid(entity) and entity:GetClass() == "nut_note" and entity.id) then
 			if WRITINGDATA[entity.id] then
 				WRITINGDATA[entity.id] = nil
 			end
@@ -54,7 +54,7 @@ else
 		end
 
 		if (item.player and IsValid(item.player)) then
-			note:setNetVar("ownerChar", item.player:getChar().id)
+			note:SetNetVar("ownerChar", item.player:GetChar().id)
 		end
 
 		if (load != true) then
@@ -64,8 +64,8 @@ else
 	end
 
 	function PLUGIN:LoadData()
-		local savedTable = self:getData() or {}
-		local noteItem = nut.item.list["note"]
+		local savedTable = self:GetData() or {}
+		local noteItem = ix.item.list["note"]
 		WRITINGDATA = savedTable.noteData
 
 		if (savedTable.noteEntities) then
@@ -75,7 +75,7 @@ else
 				note:SetAngles(v.ang)
 				note:Spawn()
 				note:Activate()
-				note:setNetVar("ownerChar", v.owner)
+				note:SetNetVar("ownerChar", v.owner)
 				note.id = v.id
 
 				hook.Run("OnNoteSpawned", note, noteItem, true)
@@ -102,7 +102,7 @@ else
 
 		saveTable.noteData = validNoteData
 
-		self:setData(saveTable)
+		self:SetData(saveTable)
 	end
 	
 end

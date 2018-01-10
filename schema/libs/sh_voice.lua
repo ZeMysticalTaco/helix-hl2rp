@@ -1,17 +1,17 @@
-nut.voice = {}
-nut.voice.list = {}
-nut.voice.checks = nut.voice.checks or {}
-nut.voice.chatTypes = {}
+ix.voice = {}
+ix.voice.list = {}
+ix.voice.checks = ix.voice.checks or {}
+ix.voice.chatTypes = {}
 
-function nut.voice.defineClass(class, onCheck, onModify, global)
-	nut.voice.checks[class] = {class = class:lower(), onCheck = onCheck, onModify = onModify, isGlobal = global}
+function ix.voice.defineClass(class, onCheck, onModify, global)
+	ix.voice.checks[class] = {class = class:lower(), onCheck = onCheck, onModify = onModify, isGlobal = global}
 end
 
-function nut.voice.getClass(client)
+function ix.voice.GetClass(client)
 	local definitions = {}
 
-	for k, v in pairs(nut.voice.checks) do
-		if (v.onCheck(client)) then
+	for k, v in pairs(ix.voice.checks) do
+		if (v.OnCheck(client)) then
 			definitions[#definitions + 1] = v
 		end
 	end
@@ -19,15 +19,15 @@ function nut.voice.getClass(client)
 	return definitions
 end
 
-function nut.voice.register(class, key, replacement, source, max)
+function ix.voice.register(class, key, replacement, source, max)
 	class = class:lower()
 	
-	nut.voice.list[class] = nut.voice.list[class] or {}
-	nut.voice.list[class][key:lower()] = {replacement = replacement, source = source}
+	ix.voice.list[class] = ix.voice.list[class] or {}
+	ix.voice.list[class][key:lower()] = {replacement = replacement, source = source}
 end
 
-function nut.voice.getVoiceList(class, text, delay)
-	local info = nut.voice.list[class]
+function ix.voice.GetVoiceList(class, text, delay)
+	local info = ix.voice.list[class]
 
 	if (!info) then
 		return

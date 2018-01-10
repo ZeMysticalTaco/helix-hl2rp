@@ -1,5 +1,5 @@
 ITEM.name = "Ration"
-ITEM.desc = "A small package with food, water and a small amount of money."
+ITEM.description = "A small package with food, water and a small amount of money."
 ITEM.model = "models/weapons/w_package.mdl"
 ITEM.width = 1
 ITEM.height = 1
@@ -11,19 +11,19 @@ ITEM.iconCam = {
 ITEM.functions.Open = {
 	icon = "icon16/briefcase.png",
 	sound = "physics/body/body_medium_impact_soft1.wav",
-	onRun = function(item)
+	OnRun = function(item)
 		local position = item.player:getItemDropPos()
 		local client = item.player
 
 		timer.Simple(0, function()
 			for k, v in pairs(item.items) do
-				if (IsValid(client) and client:getChar() and !client:getChar():getInv():add(v)) then
-					nut.item.spawn(v, position)
+				if (IsValid(client) and client:GetChar() and !client:GetChar():GetInv():Add(v)) then
+					ix.item.spawn(v, position)
 				end
 			end
 		end)
 
-		client:getChar():giveMoney(math.random(item.money[1], item.money[2]))
+		client:GetChar():giveMoney(math.random(item.money[1], item.money[2]))
 	end
 }
 ITEM.items = {"water"}

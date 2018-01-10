@@ -32,7 +32,7 @@ function ENT:SpawnFunction(client, trace)
 		end
 	end
 
-	SCHEMA:saveVendingMachines()
+	Schema:saveVendingMachines()
 
 	return entity
 end
@@ -83,8 +83,8 @@ if (SERVER) then
 		self:SetSolid(SOLID_VPHYSICS)
 		self:SetUseType(SIMPLE_USE)
 
-		self:setNetVar("stocks", {10, 5, 5})
-		self:setNetVar("active", true)
+		self:SetNetVar("stocks", {10, 5, 5})
+		self:SetNetVar("active", true)
 
 		local physObj = self:GetPhysicsObject()
 
@@ -114,40 +114,40 @@ if (SERVER) then
 		end
 
 		local button = self:getNearestButton(activator)
-		local stocks = self:getNetVar("stocks")
+		local stocks = self:GetNetVar("stocks")
 
-		if (activator:isCombine()) then
+		if (activator:IsCombine()) then
 			if (activator:KeyDown(IN_SPEED) and button and stocks[button]) then
 				if (stocks[button] > 0) then
-					return activator:addDisplay("NO REFILL IS REQUIRED FOR THIS MACHINE.")
+					return activator:AddDisplay("NO REFILL IS REQUIRED FOR THIS MACHINE.")
 				end
 
 				self:EmitSound("buttons/button5.wav")
 
-				if (!activator:getChar():hasMoney(25)) then
-					return activator:addDisplay("INSUFFICIENT FUNDS (25 TOKENS) TO REFILL MACHINE.")
+				if (!activator:GetChar():hasMoney(25)) then
+					return activator:AddDisplay("INSUFFICIENT FUNDS (25 TOKENS) TO REFILL MACHINE.")
 				else
-					activator:addDisplay("25 TOKENS HAVE BEEN TAKEN TO REFILL MACHINE.")
-					activator:getChar():takeMoney(25)
+					activator:AddDisplay("25 TOKENS HAVE BEEN TAKEN TO REFILL MACHINE.")
+					activator:GetChar():takeMoney(25)
 				end
 
 				timer.Simple(1, function()
 					if (!IsValid(self)) then return end
 
 					stocks[button] = button == 1 and 10 or 5
-					self:setNetVar("stocks", stocks)
+					self:SetNetVar("stocks", stocks)
 				end)
 
 				return
 			else
-				self:setNetVar("active", !self:getNetVar("active"))
-				self:EmitSound(self:getNetVar("active") and "buttons/combine_button1.wav" or "buttons/combine_button2.wav")
+				self:SetNetVar("active", !self:GetNetVar("active"))
+				self:EmitSound(self:GetNetVar("active") and "buttons/combine_button1.wav" or "buttons/combine_button2.wav")
 
 				return
 			end
 		end
 
-		if (self:getNetVar("active") == false) then
+		if (self:GetNetVar("active") == false) then
 			return
 		end
 
@@ -163,35 +163,35 @@ if (SERVER) then
 				price = price + 15
 			end
 
-			if (!activator:getChar():hasMoney(price)) then
+			if (!activator:GetChar():hasMoney(price)) then
 				self:EmitSound("buttons/button2.wav")
 
-				return activator:notify("You need "..nut.currency.get(price).." to purchase this selection.")
+				return activator:notify("You need "..ix.currency.Get(price).." to purchase this selection.")
 			end
 
 			local position = self:GetPos()
 			local f, r, u = self:GetForward(), self:GetRight(), self:GetUp()
 
-			nut.item.spawn(item, position + f*19 + r*4 + u*-26, function(item, entity)
+			ix.item.spawn(item, position + f*19 + r*4 + u*-26, function(item, entity)
 				stocks[button] = stocks[button] - 1
 
 				if (stocks[button] < 1) then
 					self:EmitSound("buttons/button6.wav")
 				end
 
-				self:setNetVar("stocks", stocks)
+				self:SetNetVar("stocks", stocks)
 				self:EmitSound("buttons/button4.wav", Angle(0, 0, 90))
 
-				activator:getChar():takeMoney(price)
-				activator:getChar():takeMoney(price)
-				activator:notify("You have spent "..nut.currency.get(price).." on this vending machine.")
+				activator:GetChar():takeMoney(price)
+				activator:GetChar():takeMoney(price)
+				activator:notify("You have spent "..ix.currency.Get(price).." on this vending machine.")
 			end)
 		end
 	end
 
 	function ENT:OnRemove()
-		if (!nut.shuttingDown) then
-			SCHEMA:saveVendingMachines()
+		if (!ix.shuttingDown) then
+			Schema:saveVendingMachines()
 		end
 	end
 else
@@ -240,12 +240,12 @@ else
 			self.buttons[3] = position + f*18 + r*-24.4 + u*1.35
 
 			local closest = self:getNearestButton()
-			local stocks = self:getNetVar("stocks")
+			local stocks = self:GetNetVar("stocks")
 
 			for k, v in pairs(self.buttons) do
 				local color = color_green
 
-				if (self:getNetVar("active")) then
+				if (self:GetNetVar("active")) then
 					if (stocks and stocks[k] and stocks[k] < 1) then
 						color = color_red
 						color.a = 200

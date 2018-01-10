@@ -1,6 +1,6 @@
 "sample"
 {
-	"base"		"nutscript"
+	"base"		"helix"
 	"title"		"HL2 RP"
 	"author"	"Chessnut"
 	"menusystem"	"1"

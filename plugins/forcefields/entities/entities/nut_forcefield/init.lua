@@ -60,7 +60,7 @@ function ENT:Initialize()
 	self:PhysicsFromMesh(verts)
 	self:SetCustomCollisionCheck(true)
 	self:EnableCustomCollisions(true)
-	self:setNetVar("dummy", self.dummy:EntIndex())
+	self:SetNetVar("dummy", self.dummy:EntIndex())
 
 	local physObj = self:GetPhysicsObject()
 
@@ -109,16 +109,16 @@ function ENT:OnRemove()
 		self.buzzer = nil
 	end
 
-	if (!nut.shuttingDown and !self.nutIsSafe) then
+	if (!ix.shuttingDown and !self.nutIsSafe) then
 		PLUGIN:saveForceFields()
 	end
 end
 
 local modes = {}
 modes[1] = {function(client)
-	local character = client:getChar()
+	local character = client:GetChar()
 
-	if (character and character:getInv() and !character:getInv():hasItem("cid")) then
+	if (character and character:GetInv() and !character:GetInv():HasItem("cid")) then
 		return true
 	else
 		return false
@@ -138,7 +138,7 @@ function ENT:Use(activator)
 		return
 	end
 
-	if (activator:isCombine()) then
+	if (activator:IsCombine()) then
 		self.mode = (self.mode or 1) + 1
 
 		if (self.mode > #modes) then
@@ -168,7 +168,7 @@ hook.Add("ShouldCollide", "nut_Forcefields", function(a, b)
 
 	if (IsValid(entity) and entity:GetClass() == "nut_forcefield") then
 		if (IsValid(client)) then
-			if (client:isCombine() or client:Team() == FACTION_ADMIN) then
+			if (client:IsCombine() or client:Team() == FACTION_ADMIN) then
 				return false
 			end
 

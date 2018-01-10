@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = ".9mm Pistol"
-ITEM.desc = "A semi-automatic handgun"
+ITEM.description = "A semi-automatic handgun"
 ITEM.model = "models/weapons/w_pistol.mdl"
 ITEM.class = "weapon_pistol"
 ITEM.weaponCategory = "sidearm"

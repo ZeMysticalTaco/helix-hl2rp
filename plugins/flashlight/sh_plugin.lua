@@ -1,15 +1,15 @@
 PLUGIN.name = "Flashlight"
 PLUGIN.author = "Chessnut"
-PLUGIN.desc = "Provides a flashlight item to regular flashlight usage."
+PLUGIN.description = "Provides a flashlight item to regular flashlight usage."
 
 function PLUGIN:PlayerSwitchFlashlight(client, state)
-	local character = client:getChar()
+	local character = client:GetChar()
 
-	if (!character or !character:getInv()) then
+	if (!character or !character:GetInv()) then
 		return false
 	end
 
-	if (character:getInv():hasItem("flashlight")) then
+	if (character:GetInv():HasItem("flashlight")) then
 		return true
 	end
 end

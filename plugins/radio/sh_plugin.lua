@@ -1,6 +1,6 @@
 PLUGIN.name = "Radio"
 PLUGIN.author = "Black Tea"
-PLUGIN.desc = "You can communicate with other people in distance."
+PLUGIN.description = "You can communicate with other people in distance."
 local RADIO_CHATCOLOR = Color(100, 255, 50)
 
 -- This is how initialize Language in Single File.
@@ -14,7 +14,7 @@ local langTable = {
 }
 
 function PLUGIN:PluginLoaded()
-	table.Merge(nut.lang.stored[langkey], langTable)
+	table.Merge(ix.lang.stored[langkey], langTable)
 end
 
 if (CLIENT) then
@@ -133,22 +133,22 @@ if (CLIENT) then
 	end)
 else
 	netstream.Hook("radioAdjust", function(client, freq, id)
-		local inv = (client:getChar() and client:getChar():getInv() or nil)
+		local inv = (client:GetChar() and client:GetChar():GetInv() or nil)
 
 		if (inv) then
 			local item
 
 			if (id) then
-				item = nut.item.instances[id]
+				item = ix.item.instances[id]
 			else
-				item = inv:hasItem("radio")
+				item = inv:HasItem("radio")
 			end
 
 			local ent = item:getEntity()
 
 			if (item and (IsValid(ent) or item:getOwner() == client)) then
 				(ent or client):EmitSound("buttons/combine_button1.wav", 50, 170)
-				item:setData("freq", freq, player.GetAll(), false, true)
+				item:SetData("freq", freq, player.GetAll(), false, true)
 			else
 				client:notifyLocalized("radioNoRadio")
 			end
@@ -156,10 +156,10 @@ else
 	end)
 
 	/* Do we need it?
-	nut.command.add("freq", {
+	ix.command.Add("freq", {
 		syntax = "<string name> [string flags]",
-		onRun = function(client, arguments)
-			local inv = client:getChar():getInv()
+		OnRun = function(client, arguments)
+			local inv = client:GetChar():GetInv()
 
 			if (inv) then
 				local detect = {
@@ -169,13 +169,13 @@ else
 				}
 
 				for k, v in ipairs(detect) do
-					item = inv:hasItem(v)
+					item = inv:HasItem(v)
 				end
 
 				if (item) then
 
 
-					item:setData("freq", arguments[1], nil, nil, true)
+					item:SetData("freq", arguments[1], nil, nil, true)
 				else
 					client:notify("You do not have any radio to adjust.")
 				end
@@ -200,17 +200,17 @@ local function endChatter(listener)
 	end)
 end
 
-nut.chat.register("radio", {
+ix.chat.Register("radio", {
 	format = "%s says in radio: \"%s\"",
 	font = "nutRadioFont",
-	onGetColor = function(speaker, text)
+	OnGetColor = function(speaker, text)
 		return RADIO_CHATCOLOR
 	end,
-	onCanHear = function(speaker, listener)
+	OnCanHear = function(speaker, listener)
 		local dist = speaker:GetPos():Distance(listener:GetPos())
-		local speakRange = nut.config.get("chatRange", 280)
+		local speakRange = ix.config.Get("chatRange", 280)
 		local listenerEnts = ents.FindInSphere(listener:GetPos(), speakRange)
-		local listenerInv = listener:getChar():getInv()
+		local listenerInv = listener:GetChar():GetInv()
 		local freq
 
 		if (!CURFREQ or CURFREQ == "") then
@@ -228,8 +228,8 @@ nut.chat.register("radio", {
 				end
 
 				for id, far in pairs(find) do
-					if (v.uniqueID == id and v:getData("power", false) == true) then
-						if (CURFREQ == v:getData("freq", "000.0")) then
+					if (v.uniqueID == id and v:GetData("power", false) == true) then
+						if (CURFREQ == v:GetData("freq", "000.0")) then
 							endChatter(listener)
 							
 							return true
@@ -248,11 +248,11 @@ nut.chat.register("radio", {
 				end
 
 				if (v:GetClass() == "nut_item") then
-					local itemTable = v:getItemTable()
+					local itemTable = v:GetItemTable()
 
 					for id, far in pairs(find) do
-						if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
-							if (CURFREQ == v:getData("freq", "000.0")) then
+						if (far and itemTable.uniqueID == id and v:GetData("power", false) == true) then
+							if (CURFREQ == v:GetData("freq", "000.0")) then
 								endChatter(listener)
 
 								return true
@@ -265,11 +265,11 @@ nut.chat.register("radio", {
 
 		return false
 	end,
-	onCanSay = function(speaker, text)
-		local schar = speaker:getChar()
-		local speakRange = nut.config.get("chatRange", 280)
+	OnCanSay = function(speaker, text)
+		local schar = speaker:GetChar()
+		local speakRange = ix.config.Get("chatRange", 280)
 		local speakEnts = ents.FindInSphere(speaker:GetPos(), speakRange)
-		local speakerInv = schar:getInv()
+		local speakerInv = schar:GetInv()
 		local freq
 
 		if (speakerInv) then
@@ -279,8 +279,8 @@ nut.chat.register("radio", {
 				end
 
 				for id, far in pairs(find) do
-					if (v.uniqueID == id and v:getData("power", false) == true) then
-						freq = v:getData("freq", "000.0")
+					if (v.uniqueID == id and v:GetData("power", false) == true) then
+						freq = v:GetData("freq", "000.0")
 
 						break
 					end
@@ -295,11 +295,11 @@ nut.chat.register("radio", {
 				end
 
 				if (v:GetClass() == "nut_item") then
-					local itemTable = v:getItemTable()
+					local itemTable = v:GetItemTable()
 
 					for id, far in pairs(find) do
-						if (far and itemTable.uniqueID == id and v:getData("power", false) == true) then
-							freq = v:getData("freq", "000.0")
+						if (far and itemTable.uniqueID == id and v:GetData("power", false) == true) then
+							freq = v:GetData("freq", "000.0")
 
 							break
 						end

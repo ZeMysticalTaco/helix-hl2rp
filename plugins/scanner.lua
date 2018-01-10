@@ -1,6 +1,6 @@
 PLUGIN.name = "Player Scanners Util"
 PLUGIN.author = "Chessnut"
-PLUGIN.desc = "Adds functions that allow players to control scanners."
+PLUGIN.description = "Adds functions that allow players to control scanners."
 
 local PICTURE_DELAY = 15
 
@@ -26,7 +26,7 @@ if (SERVER) then
 		entity:Spawn()
 		entity:Activate()
 		entity.player = client
-		entity:setNetVar("player", client) -- Draw the player info when looking at the scanner.
+		entity:SetNetVar("player", client) -- Draw the player info when looking at the scanner.
 		entity:CallOnRemove("nutRestore", function()
 			if (IsValid(client)) then
 				local position = entity.spawn or client:GetPos()
@@ -56,7 +56,7 @@ if (SERVER) then
 
 		entity:Fire("setfollowtarget", name)
 		entity:Fire("inputshouldinspect", false)
-		entity:Fire("setdistanceoverride", "48")
+		entity:Fire("Setdistanceoverride", "48")
 		entity:SetKeyValue("spawnflags", 8208)
 
 		client.nutScn = entity
@@ -166,7 +166,7 @@ if (SERVER) then
 	end
 
 	function PLUGIN:CanPlayerReceiveScan(client, photographer)
-		return client.isCombine and client:isCombine()
+		return client.isCombine and client:IsCombine()
 	end
 
 	net.Receive("nutScannerData", function(length, client)
@@ -197,8 +197,8 @@ if (SERVER) then
 					net.WriteData(data, #data)
 				net.Send(receivers)
 
-				if (SCHEMA.addDisplay) then
-					SCHEMA:addDisplay("Prepare to receive visual download...")
+				if (Schema.AddDisplay) then
+					Schema:AddDisplay("Prepare to receive visual download...")
 				end
 			end
 		end

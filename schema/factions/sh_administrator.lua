@@ -1,5 +1,5 @@
 FACTION.name = "fAdminName"
-FACTION.desc = "fAdminDesc"
+FACTION.description = "fAdminDesc"
 FACTION.color = Color(237, 179, 97)
 FACTION.isDefault = false
 FACTION.models = {

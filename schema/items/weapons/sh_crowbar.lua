@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = "Crowbar"
-ITEM.desc = "A tool made of a single metal bar with the ends curved."
+ITEM.description = "A tool made of a single metal bar with the ends curved."
 ITEM.model = "models/weapons/w_crowbar.mdl"
 ITEM.class = "weapon_crowbar"
 ITEM.weaponCategory = "melee"

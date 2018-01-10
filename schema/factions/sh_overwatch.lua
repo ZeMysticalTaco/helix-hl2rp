@@ -1,5 +1,5 @@
 FACTION.name = "fOverwatchName"
-FACTION.desc = "fOverwatchDesc"
+FACTION.description = "fOverwatchDesc"
 FACTION.color = Color(181, 94, 94)
 FACTION.isDefault = false
 FACTION.models = {

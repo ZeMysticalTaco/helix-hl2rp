@@ -1,7 +1,7 @@
-SCHEMA.displays = {}
+Schema.displays = {}
 
-function SCHEMA:HUDPaint()
-	if (LocalPlayer():isCombine() and !IsValid(nut.gui.char)) then
+function Schema:HUDPaint()
+	if (LocalPlayer():IsCombine() and !IsValid(ix.gui.char)) then
 		if (!self.overlay) then
 			self.overlay = Material("effects/combine_binocoverlay")
 			self.overlay:SetFloat("$alpha", "0.3")
@@ -12,15 +12,15 @@ function SCHEMA:HUDPaint()
 		surface.SetMaterial(self.overlay)
 		surface.DrawTexturedRect(0, 0, ScrW(), ScrH())
 
-		local panel = nut.gui.combine
+		local panel = ix.gui.combine
 
 		if (IsValid(panel)) then
 			local x, y = panel:GetPos()
 			local w, h = panel:GetSize()
 			local color = Color(255, 255, 255, panel:GetAlpha())
 
-			for i = 1, #SCHEMA.displays do
-				local data = SCHEMA.displays[i]
+			for i = 1, #Schema.displays do
+				local data = Schema.displays[i]
 
 				if (data) then
 					local y2 = y + (i * 22)
@@ -44,42 +44,42 @@ function SCHEMA:HUDPaint()
 	end
 end
 
-function SCHEMA:addDisplay(text, color)
-	if (LocalPlayer():isCombine()) then
+function Schema:AddDisplay(text, color)
+	if (LocalPlayer():IsCombine()) then
 		color = color or Color(0, 0, 0)
 
-		SCHEMA.displays[#SCHEMA.displays + 1] = {text = tostring(text):upper(), color = color, realText = ""}
+		Schema.displays[#Schema.displays + 1] = {text = tostring(text):upper(), color = color, realText = ""}
 		LocalPlayer():EmitSound("buttons/button16.wav", 30, 120)
 	end
 end
 
-function SCHEMA:OnChatReceived(client, chatType, text, anonymous)
-	local class = nut.chat.classes[chatType]
+function Schema:OnChatReceived(client, chatType, text, anonymous)
+	local class = ix.chat.classes[chatType]
 
-	if (client:isCombine() and class and class.filter == "ic") then
+	if (client:IsCombine() and class and class.filter == "ic") then
 		return "<:: "..text.." ::>"
 	end
 end
 
-function SCHEMA:CharacterLoaded(character)
-	if (character == LocalPlayer():getChar()) then
-		if (self:isCombineFaction(character:getFaction())) then
+function Schema:CharacterLoaded(character)
+	if (character == LocalPlayer():GetChar()) then
+		if (self:IsCombineFaction(character:GetFaction())) then
 			vgui.Create("nutCombineDisplay")
-		elseif (IsValid(nut.gui.combine)) then
-			nut.gui.combine:Remove()
+		elseif (IsValid(ix.gui.combine)) then
+			ix.gui.combine:Remove()
 		end
 	end
 end
 
-function SCHEMA:OnContextMenuOpen()
-	if (IsValid(nut.gui.combine)) then
-		nut.gui.combine:SetVisible(true)
+function Schema:OnContextMenuOpen()
+	if (IsValid(ix.gui.combine)) then
+		ix.gui.combine:SetVisible(true)
 	end
 end
 
-function SCHEMA:OnContextMenuClose()
-	if (IsValid(nut.gui.combine)) then
-		nut.gui.combine:SetVisible(false)
+function Schema:OnContextMenuClose()
+	if (IsValid(ix.gui.combine)) then
+		ix.gui.combine:SetVisible(false)
 	end
 end
 
@@ -94,20 +94,20 @@ color["$pp_colour_mulr"] = 0
 color["$pp_colour_mulg"] = 0
 color["$pp_colour_mulb"] = 0
 
-function SCHEMA:RenderScreenspaceEffects()
+function Schema:RenderScreenspaceEffects()
 	DrawColorModify(color)
 end
 
 netstream.Hook("cDisp", function(text, color)
-	SCHEMA:addDisplay(text, color)
+	Schema:AddDisplay(text, color)
 end)
 
 netstream.Hook("plyData", function(...)
-	vgui.Create("nutData"):setData(...)
+	vgui.Create("nutData"):SetData(...)
 end)
 
 netstream.Hook("obj", function(...)
-	vgui.Create("nutObjective"):setData(...)
+	vgui.Create("nutObjective"):SetData(...)
 end)
 
 netstream.Hook("voicePlay", function(sounds, volume, index)
@@ -115,9 +115,9 @@ netstream.Hook("voicePlay", function(sounds, volume, index)
 		local client = Entity(index)
 
 		if (IsValid(client)) then
-			nut.util.emitQueuedSounds(client, sounds, nil, nil, volume)
+			ix.util.EmitQueuedSounds(client, sounds, nil, nil, volume)
 		end
 	else
-		nut.util.emitQueuedSounds(LocalPlayer(), sounds, nil, nil, volume)
+		ix.util.EmitQueuedSounds(LocalPlayer(), sounds, nil, nil, volume)
 	end
 end)

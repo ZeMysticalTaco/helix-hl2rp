@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = "Crossbow"
-ITEM.desc = "A crossbow that fires a heated bolt."
+ITEM.description = "A crossbow that fires a heated bolt."
 ITEM.model = "models/weapons/w_crossbow.mdl"
 ITEM.width = 3
 ITEM.height = 1

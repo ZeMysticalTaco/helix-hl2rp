@@ -33,7 +33,7 @@ function ENT:Draw()
 
 	render.SetMaterial(material)
 
-	local dummy = Entity(self:getNetVar("dummy", 0))
+	local dummy = Entity(self:GetNetVar("dummy", 0))
 
 	if (IsValid(dummy)) then
 		local vertex = self:WorldToLocal(dummy:GetPos())

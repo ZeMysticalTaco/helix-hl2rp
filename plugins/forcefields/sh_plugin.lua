@@ -2,7 +2,7 @@ local PLUGIN = PLUGIN
 
 PLUGIN.name = "Forcefields"
 PLUGIN.author = "Chessnut"
-PLUGIN.desc = "Adds force fields which can be placed around the map."
+PLUGIN.description = "Adds force fields which can be placed around the map."
 
 function PLUGIN:saveForceFields()
 	local buffer = {}
@@ -11,11 +11,11 @@ function PLUGIN:saveForceFields()
 		buffer[#buffer + 1] = {pos = v:GetPos(), ang = v:GetAngles(), mode = v.mode or 1}
 	end
 
-	self:setData(buffer)
+	self:SetData(buffer)
 end
 
 function PLUGIN:LoadData()
-	local buffer = self:getData() or {}
+	local buffer = self:GetData() or {}
 
 	for k, v in ipairs(buffer) do
 		local entity = ents.Create("nut_forcefield")

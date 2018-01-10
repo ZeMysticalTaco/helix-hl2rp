@@ -24,12 +24,12 @@ else
 		return true
 	end
 
-	function ENT:onDrawEntityInfo(alpha)
+	function ENT:OnDrawEntityInfo(alpha)
 		local position = self:LocalToWorld(self:OBBCenter()):ToScreen()
 		local x, y = position.x, position.y - 10
 		
-		nut.util.drawText("Note", x, y, ColorAlpha(nut.config.get("color"), alpha), 1, 1, nil, alpha * 0.65)
-		nut.util.drawText("It seems something is written on.", x, y + 16, ColorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
+		ix.util.DrawText("Note", x, y, ColorAlpha(ix.config.Get("color"), alpha), 1, 1, nil, alpha * 0.65)
+		ix.util.DrawText("It seems something is written on.", x, y + 16, ColorAlpha(color_white, alpha), 1, 1, "nutSmallFont", alpha * 0.65)
 	end
 
 	function ENT:Draw()
@@ -38,11 +38,11 @@ else
 end
 
 function ENT:getOwner()
-	return self:getNetVar("ownerChar")
+	return self:GetNetVar("ownerChar")
 end
 
 function ENT:canWrite(client)
 	if (client) then
-		return (client:IsAdmin() or client:getChar().id == self:getOwner())
+		return (client:IsAdmin() or client:GetChar().id == self:getOwner())
 	end
 end

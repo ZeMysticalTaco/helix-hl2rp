@@ -1,9 +1,9 @@
 CLASS.name = "Civil Protection Recruit"
-CLASS.desc = "The bottom of the Civil Protection."
+CLASS.description = "The bottom of the Civil Protection."
 CLASS.faction = FACTION_CP
 
-function CLASS:onCanBe(client)
-	return client:isCombineRank(SCHEMA.rctRanks)
+function CLASS:OnCanBe(client)
+	return client:IsCombineRank(Schema.rctRanks)
 end
 
 CLASS_CP_RCT = CLASS.index

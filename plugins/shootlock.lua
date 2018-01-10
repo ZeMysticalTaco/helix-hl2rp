@@ -1,6 +1,6 @@
 PLUGIN.name = "Shoot Locks"
 PLUGIN.author = "Chessnut"
-PLUGIN.desc = "Shoot locks to open doors."
+PLUGIN.description = "Shoot locks to open doors."
 
 local SHOOT_DISTANCE = 180
 
@@ -53,7 +53,7 @@ function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 
 				entity.nutOldSpeed = entity.nutOldSpeed or entity:GetKeyValues().speed or 100
 
-				entity:Fire("setspeed", entity.nutOldSpeed * 3.5)
+				entity:Fire("Setspeed", entity.nutOldSpeed * 3.5)
 				entity:Fire("unlock")
 				entity:Fire("openawayfrom", name)
 				entity:EmitSound("physics/wood/wood_plank_break"..math.random(1, 4)..".wav", 100, 120)
@@ -62,7 +62,7 @@ function PLUGIN:EntityTakeDamage(entity, dmgInfo)
 
 				timer.Simple(0.5, function()
 					if (IsValid(entity)) then
-						entity:Fire("setspeed", entity.nutOldSpeed)
+						entity:Fire("Setspeed", entity.nutOldSpeed)
 					end
 				end)
 			end

@@ -14,7 +14,7 @@
 --]]
 
 ITEM.name = ".357 Magnum"
-ITEM.desc = "A strong revolver."
+ITEM.description = "A strong revolver."
 ITEM.model = "models/weapons/w_357.mdl"
 ITEM.class = "weapon_357"
 ITEM.weaponCategory = "sidearm"

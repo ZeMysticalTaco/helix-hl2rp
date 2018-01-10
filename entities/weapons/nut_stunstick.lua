@@ -66,7 +66,7 @@ end
 function SWEP:PrimaryAttack()	
 	self:SetNextPrimaryFire(CurTime() + self.Primary.Delay)
 
-	if (!self.Owner:isWepRaised()) then
+	if (!self.Owner:IsWepRaised()) then
 		return
 	end
 
@@ -85,7 +85,7 @@ function SWEP:PrimaryAttack()
 
 			local model = string.lower(self.Owner:GetModel())
 			
-			if (nut.anim.getModelClass(model) == "metrocop") then
+			if (ix.anim.GetModelClass(model) == "metrocop") then
 				self.Owner:forceSequence(sequence, nil, nil, true)
 			end
 		end
@@ -139,7 +139,7 @@ function SWEP:PrimaryAttack()
 				entity:ViewPunch(Angle(-20, math.random(-15, 15), math.random(-10, 10)))
 
 				if (self:GetActivated() and entity.nutStuns > (hook.Run("PlayerGetStunThreshold", entity, self.Owner) or 3)) then
-					entity:setRagdolled(true, 60)
+					entity:SetRagdolled(true, 60)
 					entity.nutStuns = 0
 
 					return
@@ -189,7 +189,7 @@ function SWEP:SecondaryAttack()
 	if (SERVER and IsValid(entity)) then
 		local pushed
 
-		if (entity:isDoor()) then
+		if (entity:IsDoor()) then
 			if (hook.Run("PlayerCanKnock", self.Owner, entity) == false) then
 				return
 			end
@@ -201,7 +201,7 @@ function SWEP:SecondaryAttack()
 			self:SetNextSecondaryFire(CurTime() + 0.4)
 			self:SetNextPrimaryFire(CurTime() + 1)
 		elseif (entity:IsPlayer()) then
-			local direction = self.Owner:GetAimVector() * (300 + (self.Owner:getChar():getAttrib("str", 0) * 3))
+			local direction = self.Owner:GetAimVector() * (300 + (self.Owner:GetChar():getAttrib("str", 0) * 3))
 			direction.z = 0
 
 			entity:SetVelocity(direction)
@@ -225,7 +225,7 @@ function SWEP:SecondaryAttack()
 			local model = string.lower(self.Owner:GetModel())
 			local owner = self.Owner
 
-			if (nut.anim.getModelClass(model) == "metrocop") then
+			if (ix.anim.GetModelClass(model) == "metrocop") then
 				self.Owner:forceSequence("pushplayer")
 			end
 		end

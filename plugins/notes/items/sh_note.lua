@@ -2,7 +2,7 @@ ITEM.name = "Paper Note"
 ITEM.model = "models/props_lab/clipboard.mdl"
 ITEM.width = 1
 ITEM.height = 1
-ITEM.desc = "This is something you can write a doodle on."
+ITEM.description = "This is something you can write a doodle on."
 ITEM.price = 20
 ITEM.permit = "misc"
 
@@ -11,7 +11,7 @@ ITEM.functions.use = { -- sorry, for name order.
 	name = "Use",
 	tip = "useTip",
 	icon = "icon16/pencil.png",
-	onRun = function(item)
+	OnRun = function(item)
 		local client = item.player
 		local data = {}
 			data.start = client:GetShootPos()

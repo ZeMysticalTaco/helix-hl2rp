@@ -18,7 +18,7 @@ end
 function ENT:SpawnFunction(client, trace)
 	local door = trace.Entity
 
-	if (!IsValid(door) or !door:isDoor() or IsValid(door.lock)) then
+	if (!IsValid(door) or !door:IsDoor() or IsValid(door.lock)) then
 		return client:notifyLocalized("dNotValid")
 	end
 
@@ -28,7 +28,7 @@ function ENT:SpawnFunction(client, trace)
 	entity:SetPos(trace.HitPos)
 	entity:Spawn()
 	entity:Activate()
-	entity:setDoor(door, position, angles)
+	entity:SetDoor(door, position, angles)
 
 	PLUGIN:SaveData()
 
@@ -42,7 +42,7 @@ if (SERVER) then
 		self:PhysicsInit(SOLID_VPHYSICS)
 		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		self:SetUseType(SIMPLE_USE)
-		self.onDoorRestored = function(self, door)
+		self.OnDoorRestored = function(self, door)
 			self:toggle(false)
 		end
 	end
@@ -52,7 +52,7 @@ if (SERVER) then
 			self.door:Fire("unlock")
 		end
 
-		if (!nut.shuttingDown) then
+		if (!ix.shuttingDown) then
 			PLUGIN:SaveData()
 		end
 	end
@@ -68,7 +68,7 @@ if (SERVER) then
 			return
 		end
 
-		if (!activator:isCombine() and activator:Team() != FACTION_ADMIN) then
+		if (!activator:IsCombine() and activator:Team() != FACTION_ADMIN) then
 			self:error()
 
 			return
@@ -140,7 +140,7 @@ if (SERVER) then
 		return position, normal
 	end
 
-	function ENT:setDoor(door, position, angles)
+	function ENT:SetDoor(door, position, angles)
 		if (!IsValid(door)) then
 			return
 		end

@@ -1,10 +1,10 @@
 local PANEL = {}
 	function PANEL:Init()
-		if (IsValid(nut.gui.obj)) then
-			nut.gui.obj:Remove()
+		if (IsValid(ix.gui.obj)) then
+			ix.gui.obj:Remove()
 		end
 
-		nut.gui.obj = self
+		ix.gui.obj = self
 
 		self:SetSize(280, 380)
 		self:MakePopup()
@@ -17,7 +17,7 @@ local PANEL = {}
 		self.text:SetEnabled(false)
 	end
 
-	function PANEL:setData(text, canEdit)
+	function PANEL:SetData(text, canEdit)
 		self:SetTitle(L"objectives")
 		self.text:SetText(text)
 		self.oldText = text and text:lower() or nil

@@ -1,11 +1,11 @@
 ITEM.name = "Combine Lock"
-ITEM.desc = "A metallic lock that is placed on doors."
+ITEM.description = "A metallic lock that is placed on doors."
 ITEM.price = 250
 ITEM.model = "models/props_combine/combine_lock01.mdl"
 ITEM.category = "Combine"
 ITEM.factions = {FACTION_CP, FACTION_OW}
 ITEM.functions.Place = {
-	onRun = function(item)
+	OnRun = function(item)
 		local data = {}
 		data.start = item.player:GetShootPos()
 		data.endpos = data.start + item.player:GetAimVector()*128

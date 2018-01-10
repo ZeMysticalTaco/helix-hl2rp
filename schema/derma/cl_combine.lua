@@ -1,11 +1,11 @@
 local PANEL = {}
 	function PANEL:Init()
-		if (IsValid(nut.gui.combine)) then
-			nut.gui.combine:saveData()
-			nut.gui.combine:Remove()
+		if (IsValid(ix.gui.combine)) then
+			ix.gui.combine:saveData()
+			ix.gui.combine:Remove()
 		end
 
-		nut.gui.combine = self
+		ix.gui.combine = self
 
 		self:SetSize(580, 360)
 		self:SetPos(cookie.GetNumber("nutCombineX", ScrW() - self:GetWide()), cookie.GetNumber("nutCombineY", ScrH()*0.5 - self:GetTall()*0.5))
@@ -36,10 +36,10 @@ local PANEL = {}
 		self.clear:Dock(TOP)
 		self.clear:SetText("Clear")
 		self.clear.DoClick = function()
-			SCHEMA.displays = {}
+			Schema.displays = {}
 		end
 
-		if (nut.plugin.list.scanner) then
+		if (ix.plugin.list.scanner) then
 			self.photos = self:Add("DButton")
 			self.photos:Dock(TOP)
 			self.photos:SetText("View Photos")
@@ -71,6 +71,6 @@ local PANEL = {}
 	end
 vgui.Register("nutCombineDisplay", PANEL, "DFrame")
  
-if (IsValid(nut.gui.combine)) then
+if (IsValid(ix.gui.combine)) then
 	vgui.Create("nutCombineDisplay")
 end
